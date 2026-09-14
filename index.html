@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>¡Feliz Aniversario, Amor Mío! 🌷❤️</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&family=Parisienne&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+            background: radial-gradient(circle at 50% 25%, #230f33 0%, #0e0517 55%, #04010a 100%);
+            font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #fff;
+        }
+
+        /* Canvas de fondo y partículas */
+        #bgCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Contenedor del jardín de tulipanes */
+        #garden {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: auto;
+        }
+
+        /* Resplandor ambiental de fondo */
+        .ambient-glow {
+            position: absolute;
+            width: 90vw;
+            max-width: 600px;
+            height: 90vw;
+            max-height: 600px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(235, 77, 138, 0.2) 0%, rgba(138, 43, 226, 0.12) 40%, transparent 70%);
+            filter: blur(40px);
+            pointer-events: none;
+            z-index: 2;
+            top: 25%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: pulseGlow 7s ease-in-out infinite alternate;
+        }
+
+        @keyframes pulseGlow {
+            0% { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+            100% { transform: translate(-50%, -50%) scale(1.15); opacity: 1; }
+        }
+
+        /* Contenedor de la carta */
+        .main-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding-top: 2vh;
+            pointer-events: none;
+        }
+
+        /* Pantalla de inicio interactiva */
+        .intro-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(8, 3, 15, 0.95);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+            pointer-events: auto;
+            text-align: center;
+            padding: 24px;
+        }
+
+        .intro-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .intro-title {
+            font-family: 'Great Vibes', cursive, serif;
+            font-size: clamp(2.6rem, 8vw, 4.8rem);
+            color: #ff9ee2;
+            text-shadow: 0 0 25px rgba(255, 105, 180, 0.8), 0 0 50px rgba(186, 85, 211, 0.5);
+            margin-bottom: 16px;
+            animation: floatText 3s ease-in-out infinite alternate;
+        }
+
+        .intro-sub {
+            font-size: clamp(0.95rem, 3.2vw, 1.25rem);
+            color: #eeddfc;
+            margin-bottom: 35px;
+            max-width: 480px;
+            line-height: 1.6;
+            font-weight: 300;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+        }
+
+        .heart-btn {
+            background: linear-gradient(135deg, #ff2a6d 0%, #a83279 50%, #6827b0 100%);
+            border: none;
+            padding: 16px 36px;
+            font-size: 1.2rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 0 35px rgba(255, 42, 109, 0.65), 0 10px 25px rgba(0, 0, 0, 0.5);
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            touch-action: manipulation;
+        }
+
+        .heart-btn:active {
+            transform: scale(0.96);
+        }
+
+        .heart-btn svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+            animation: beat 1.2s ease-in-out infinite;
+        }
+
+        @keyframes beat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        @keyframes floatText {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        /* Tarjeta Romántica */
+        .card {
+            pointer-events: auto;
+            background: rgba(22, 10, 36, 0.78);
+            border: 1px solid rgba(255, 182, 193, 0.35);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), 0 0 45px rgba(186, 85, 211, 0.25);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            padding: 24px 22px;
+            max-width: 620px;
+            width: 92%;
+            text-align: center;
+            position: relative;
+            transform: translateY(30px) scale(0.96);
+            opacity: 0;
+            transition: all 1s cubic-bezier(0.19, 1, 0.22, 1);
+            max-height: 76vh;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .card.visible {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .card-header {
+            font-family: 'Great Vibes', cursive, serif;
+            font-size: clamp(2.3rem, 7vw, 3.6rem);
+            color: #ff9ee2;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.7);
+            margin-bottom: 2px;
+            line-height: 1.2;
+        }
+
+        .card-subtitle {
+            font-family: 'Dancing Script', cursive, sans-serif;
+            font-size: clamp(1.2rem, 4vw, 1.6rem);
+            color: #ffd166;
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .card-body {
+            font-size: clamp(0.92rem, 2.8vw, 1.08rem);
+            line-height: 1.7;
+            color: #f7eaff;
+            font-weight: 300;
+            margin-bottom: 16px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        .card-body p {
+            margin-bottom: 12px;
+        }
+
+        .highlight-love {
+            font-family: 'Dancing Script', cursive, sans-serif;
+            font-size: 1.35rem;
+            font-weight: 700;
+            color: #ff6b8b;
+            display: inline-block;
+            text-shadow: 0 0 15px rgba(255, 107, 139, 0.6);
+        }
+
+        .highlight-glow {
+            color: #ffd166;
+            font-weight: 500;
+            text-shadow: 0 0 10px rgba(255, 209, 102, 0.4);
+        }
+
+        .highlight-tulip {
+            color: #e0aaff;
+            font-style: italic;
+        }
+
+        .card-signature {
+            font-family: 'Dancing Script', cursive, sans-serif;
+            font-size: clamp(1.4rem, 4.5vw, 1.9rem);
+            color: #ff85a1;
+            margin-top: 8px;
+            text-shadow: 0 0 15px rgba(255, 133, 161, 0.6);
+            line-height: 1.4;
+        }
+
+        /* Indicador de interacción */
+        .hint-bar {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 18px;
+            border-radius: 30px;
+            font-size: clamp(0.7rem, 2.2vw, 0.82rem);
+            color: #f0d6ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 1s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        .hint-bar.visible {
+            opacity: 1;
+            animation: bounceSoft 2.5s ease-in-out infinite;
+        }
+
+        @keyframes bounceSoft {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        /* Botones de control */
+        .controls-panel {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            z-index: 30;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            pointer-events: auto;
+        }
+
+        .icon-btn {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            touch-action: manipulation;
+        }
+
+        .icon-btn.playing {
+            background: rgba(255, 42, 109, 0.5);
+            box-shadow: 0 0 18px rgba(255, 42, 109, 0.8);
+        }
+
+        .icon-btn svg {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* SVG de los Tulipanes */
+        svg.tulip-svg {
+            position: absolute;
+            cursor: grab;
+            transform-origin: bottom center;
+            filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.6));
+            transition: transform 0.1s ease-out;
+            will-change: transform;
+            touch-action: none;
+        }
+
+        /* Partículas de corazón */
+        .heart-burst {
+            position: absolute;
+            pointer-events: none;
+            font-size: 1.4rem;
+            animation: burstUp 1.4s forwards ease-out;
+            z-index: 50;
+        }
+
+        @keyframes burstUp {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(0.5);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--vx)), calc(-50% + var(--vy))) scale(1.5);
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Elemento de Audio para la canción subida -->
+    <audio id="romanticAudio" src="musica.mp3" loop preload="auto" playsinline webkit-playsinline></audio>
+
+    <!-- Canvas para estrellas, pétalos y luciérnagas -->
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- Resplandor ambiental de fondo -->
+    <div class="ambient-glow"></div>
+
+    <!-- Panel de controles -->
+    <div class="controls-panel">
+        <button class="icon-btn" id="musicBtn" title="Pausar / Activar Música">
+            <svg id="musicIcon" viewBox="0 0 24 24"><path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/></svg>
+        </button>
+        <button class="icon-btn" id="petalBtn" title="Lluvia de pétalos de amor">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+        </button>
+    </div>
+
+    <!-- Pantalla interactiva de bienvenida -->
+    <div class="intro-screen" id="introScreen">
+        <div class="intro-title">Amor Mío ❤️</div>
+        <p class="intro-sub">Tengo una sorpresa muy especial para ti en este aniversario. Toca el corazón para abrirla.</p>
+        <button class="heart-btn" id="startBtn">
+            <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+            Abrir Con Amor
+        </button>
+    </div>
+
+    <!-- Contenedor principal con la carta personalizada -->
+    <div class="main-container">
+        <div class="card" id="loveCard">
+            <h1 class="card-header">Amor mío ❤️</h1>
+            <div class="card-subtitle">¡Faltan solo dos meses para cumplir 2 años juntos!</div>
+            
+            <div class="card-body">
+                <p>Increíble, ¿no? Quizás al principio no imaginábamos que llegaríamos hasta este momento, pero aquí estamos, <span class="highlight-glow">compartiendo nuestra felicidad y construyendo tantos recuerdos juntos</span>.</p>
+                
+                <p>En este día quiero decirte <span class="highlight-love">gracias por estar conmigo</span>, por compartir tu felicidad y por hacer que cada momento a tu lado sea especial.</p>
+                
+                <p>Te regalo estas flores; no son flores reales, pero tienen algo bonito: <span class="highlight-tulip">durarán mucho tiempo, así como espero que dure nuestro amor</span>.</p>
+                
+                <p>Espero que te encanten, mi amor. 🌹</p>
+            </div>
+
+            <div class="card-signature">
+                ¡Feliz aniversario! <br>
+                <span class="highlight-love">Te amo muchísimo. ❤️</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Indicador de interacción -->
+    <div class="hint-bar" id="hintBar">
+        <span>✨ Toca o arrastra los tulipanes morados, naranjas y rojos</span>
+    </div>
+
+    <!-- Jardín interactivo de tulipanes -->
+    <div id="garden"></div>
+
+    <script>
+        /* ==========================================================
+           1. SISTEMA DE AUDIO UNIVERSAL (Móvil + PC)
+           ========================================================== */
+        const romanticAudio = document.getElementById('romanticAudio');
+        const musicBtn = document.getElementById('musicBtn');
+        let isPlaying = false;
+
+        function startMusicUniversal() {
+            romanticAudio.play().then(() => {
+                isPlaying = true;
+                musicBtn.classList.add('playing');
+            }).catch(e => {
+                console.log("Audio play deferred:", e);
+                // Si el navegador móvil bloquea o tarda, reintentar con el primer toque
+                document.addEventListener('touchstart', () => {
+                    romanticAudio.play();
+                    isPlaying = true;
+                    musicBtn.classList.add('playing');
+                }, { once: true });
+            });
+        }
+
+        function toggleMusic() {
+            if (romanticAudio.paused) {
+                romanticAudio.play();
+                isPlaying = true;
+                musicBtn.classList.add('playing');
+            } else {
+                romanticAudio.pause();
+                isPlaying = false;
+                musicBtn.classList.remove('playing');
+            }
+        }
+
+        musicBtn.addEventListener('click', toggleMusic);
+        musicBtn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            toggleMusic();
+        }, { passive: true });
+
+        /* ==========================================================
+           2. CANVAS DE AMBIENTE: ESTRELLAS, LUCIÉRNAGAS Y PÉTALOS
+           ========================================================== */
+        const canvas = document.getElementById('bgCanvas');
+        const ctx = canvas.getContext('2d');
+
+        let width = (canvas.width = window.innerWidth);
+        let height = (canvas.height = window.innerHeight);
+
+        window.addEventListener('resize', () => {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            initStars();
+        });
+
+        const stars = [];
+        function initStars() {
+            stars.length = 0;
+            const count = width < 600 ? 50 : 90;
+            for (let i = 0; i < count; i++) {
+                stars.push({
+                    x: Math.random() * width,
+                    y: Math.random() * (height * 0.7),
+                    radius: Math.random() * 1.5 + 0.5,
+                    alpha: Math.random() * 0.8 + 0.2,
+                    speed: Math.random() * 0.02 + 0.005
+                });
+            }
+        }
+        initStars();
+
+        const fireflies = [];
+        const fCount = width < 600 ? 20 : 35;
+        for (let i = 0; i < fCount; i++) {
+            fireflies.push({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                vx: (Math.random() - 0.5) * 0.7,
+                vy: (Math.random() - 0.5) * 0.7,
+                radius: Math.random() * 2.2 + 1.2,
+                color: Math.random() > 0.5 ? '#ffb703' : '#fb8500',
+                glow: Math.random() * 8 + 4,
+                alpha: Math.random() * 0.7 + 0.3
+            });
+        }
+
+        const petals = [];
+        const petalColors = ['#9b30ff', '#e056fd', '#ff5400', '#ff7700', '#ff0054', '#d90429'];
+
+        function addPetal(x = Math.random() * width, y = -20) {
+            petals.push({
+                x: x,
+                y: y,
+                size: Math.random() * 10 + 9,
+                color: petalColors[Math.floor(Math.random() * petalColors.length)],
+                vx: (Math.random() - 0.5) * 1.2 + 0.4,
+                vy: Math.random() * 1.3 + 1.1,
+                angle: Math.random() * Math.PI * 2,
+                vAngle: (Math.random() - 0.5) * 0.04,
+                scaleX: Math.random() * 0.5 + 0.5,
+                alpha: Math.random() * 0.4 + 0.6
+            });
+        }
+
+        for (let i = 0; i < 15; i++) {
+            addPetal(Math.random() * width, Math.random() * height);
+        }
+
+        function drawPetal(p) {
+            ctx.save();
+            ctx.translate(p.x, p.y);
+            ctx.rotate(p.angle);
+            ctx.scale(p.scaleX, 1);
+            ctx.beginPath();
+            ctx.moveTo(0, -p.size / 2);
+            ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size / 2, p.size / 2, 0, p.size);
+            ctx.bezierCurveTo(-p.size / 2, p.size / 2, -p.size / 2, -p.size / 2, 0, -p.size / 2);
+            ctx.fillStyle = p.color;
+            ctx.globalAlpha = p.alpha;
+            ctx.fill();
+            ctx.restore();
+        }
+
+        function animateBackground() {
+            ctx.clearRect(0, 0, width, height);
+
+            // Estrellas
+            for (let s of stars) {
+                s.alpha += s.speed;
+                if (s.alpha > 1 || s.alpha < 0.2) s.speed = -s.speed;
+                ctx.beginPath();
+                ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(s.alpha)})`;
+                ctx.fill();
+            }
+
+            // Luciérnagas
+            for (let f of fireflies) {
+                f.x += f.vx;
+                f.y += f.vy;
+
+                if (f.x < 0) f.x = width;
+                if (f.x > width) f.x = 0;
+                if (f.y < 0) f.y = height;
+                if (f.y > height) f.y = 0;
+
+                ctx.beginPath();
+                ctx.arc(f.x, f.y, f.radius, 0, Math.PI * 2);
+                ctx.fillStyle = f.color;
+                ctx.globalAlpha = f.alpha;
+                ctx.fill();
+            }
+
+            // Pétalos
+            if (Math.random() < 0.1 && petals.length < 45) {
+                addPetal();
+            }
+
+            for (let i = petals.length - 1; i >= 0; i--) {
+                const p = petals[i];
+                p.x += p.vx + Math.sin(Date.now() * 0.002 + p.y * 0.01) * 0.6;
+                p.y += p.vy;
+                p.angle += p.vAngle;
+
+                drawPetal(p);
+
+                if (p.y > height + 30 || p.x > width + 40 || p.x < -40) {
+                    petals.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateBackground);
+        }
+        animateBackground();
+
+
+        /* ==========================================================
+           3. SISTEMA DE TULIPANES BOTÁNICOS REALISTAS Y FÍSICAS
+           ========================================================== */
+        const garden = document.getElementById('garden');
+
+        const TULIP_THEMES = {
+            purple: {
+                id: 'purple',
+                name: 'Morado Real',
+                mainGradient: ['#3A0057', '#7B1FA2', '#9C27B0', '#E1BEE7'],
+                petalInner: '#4A0E4E',
+                petalLeft: '#6A1B9A',
+                petalRight: '#8E24AA',
+                petalCenter: '#AB47BC',
+                highlight: '#E1BEE7',
+                stemColor: '#2d6a4f',
+                leafColor: '#40916c'
+            },
+            orange: {
+                id: 'orange',
+                name: 'Naranja Ocaso',
+                mainGradient: ['#8B2500', '#D84315', '#FF6D00', '#FFE082'],
+                petalInner: '#BF360C',
+                petalLeft: '#E64A19',
+                petalRight: '#FF5722',
+                petalCenter: '#FF9100',
+                highlight: '#FFE082',
+                stemColor: '#386641',
+                leafColor: '#6a994e'
+            },
+            red: {
+                id: 'red',
+                name: 'Rojo Pasión',
+                mainGradient: ['#5c0011', '#9e0024', '#e60039', '#ff85a1'],
+                petalInner: '#500010',
+                petalLeft: '#800020',
+                petalRight: '#C41E3A',
+                petalCenter: '#E6194B',
+                highlight: '#FF85A1',
+                stemColor: '#2b580c',
+                leafColor: '#437a1f'
+            }
+        };
+
+        class RealisticTulip {
+            constructor(xPercent, heightPx, themeKey, scale = 1, swayOffset = 0, zIndex = 5) {
+                this.xPercent = xPercent;
+                this.heightPx = heightPx;
+                this.theme = TULIP_THEMES[themeKey];
+                this.scale = scale;
+                this.swayOffset = swayOffset;
+                this.zIndex = zIndex;
+
+                this.angle = 0;
+                this.angularVelocity = 0;
+                this.targetAngle = 0;
+                this.isDragging = false;
+                this.lastMouseX = 0;
+
+                this.domElement = null;
+                this.createDOM();
+            }
+
+            createDOM() {
+                const uid = 't_' + Math.random().toString(36).substr(2, 9);
+                const svgNS = "http://www.w3.org/2000/svg";
+                const svg = document.createElementNS(svgNS, "svg");
+                svg.setAttribute("class", "tulip-svg");
+                svg.setAttribute("viewBox", "-90 0 180 320");
+                svg.style.width = `${130 * this.scale}px`;
+                svg.style.height = `${this.heightPx}px`;
+                svg.style.left = `calc(${this.xPercent}% - ${65 * this.scale}px)`;
+                svg.style.bottom = `-10px`;
+                svg.style.zIndex = this.zIndex;
+
+                const defs = document.createElementNS(svgNS, "defs");
+                defs.innerHTML = `
+                    <linearGradient id="${uid}_stem" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" stop-color="#1b4332" />
+                        <stop offset="40%" stop-color="${this.theme.stemColor}" />
+                        <stop offset="80%" stop-color="#74c69d" />
+                        <stop offset="100%" stop-color="#1b4332" />
+                    </linearGradient>
+
+                    <linearGradient id="${uid}_leaf" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="${this.theme.leafColor}" />
+                        <stop offset="50%" stop-color="#2d6a4f" />
+                        <stop offset="100%" stop-color="#081c15" />
+                    </linearGradient>
+
+                    <radialGradient id="${uid}_centerPetal" cx="45%" cy="35%" r="65%">
+                        <stop offset="0%" stop-color="${this.theme.highlight}" />
+                        <stop offset="35%" stop-color="${this.theme.petalCenter}" />
+                        <stop offset="75%" stop-color="${this.theme.petalRight}" />
+                        <stop offset="100%" stop-color="${this.theme.petalInner}" />
+                    </radialGradient>
+
+                    <linearGradient id="${uid}_leftPetal" x1="0%" y1="0%" x2="100%" y2="80%">
+                        <stop offset="0%" stop-color="${this.theme.highlight}" />
+                        <stop offset="40%" stop-color="${this.theme.petalLeft}" />
+                        <stop offset="100%" stop-color="${this.theme.petalInner}" />
+                    </linearGradient>
+
+                    <linearGradient id="${uid}_rightPetal" x1="100%" y1="0%" x2="0%" y2="80%">
+                        <stop offset="0%" stop-color="${this.theme.highlight}" />
+                        <stop offset="40%" stop-color="${this.theme.petalRight}" />
+                        <stop offset="100%" stop-color="${this.theme.petalInner}" />
+                    </linearGradient>
+                `;
+                svg.appendChild(defs);
+
+                // Tallo
+                const stemPath = document.createElementNS(svgNS, "path");
+                stemPath.setAttribute("d", "M 0,90 Q 6,200 0,320");
+                stemPath.setAttribute("stroke", `url(#${uid}_stem)`);
+                stemPath.setAttribute("stroke-width", "9");
+                stemPath.setAttribute("stroke-linecap", "round");
+                stemPath.setAttribute("fill", "none");
+                svg.appendChild(stemPath);
+
+                // Hojas
+                const leafL = document.createElementNS(svgNS, "path");
+                leafL.setAttribute("d", "M 0,260 C -45,220 -60,150 -45,110 C -30,145 -10,210 0,280 Z");
+                leafL.setAttribute("fill", `url(#${uid}_leaf)`);
+                leafL.setAttribute("opacity", "0.95");
+                svg.appendChild(leafL);
+
+                const leafR = document.createElementNS(svgNS, "path");
+                leafR.setAttribute("d", "M 0,240 C 50,190 70,130 55,90 C 35,130 15,190 0,270 Z");
+                leafR.setAttribute("fill", `url(#${uid}_leaf)`);
+                leafR.setAttribute("opacity", "0.95");
+                svg.appendChild(leafR);
+
+                // Flor
+                const flowerGroup = document.createElementNS(svgNS, "g");
+                flowerGroup.setAttribute("transform", "translate(0, 75)");
+
+                const backPetal = document.createElementNS(svgNS, "path");
+                backPetal.setAttribute("d", "M 0,-65 C 20,-60 38,-30 35,5 C 20,35 -20,35 -35,5 C -38,-30 -20,-60 0,-65 Z");
+                backPetal.setAttribute("fill", this.theme.petalInner);
+                flowerGroup.appendChild(backPetal);
+
+                const petalLeft = document.createElementNS(svgNS, "path");
+                petalLeft.setAttribute("d", "M -3,-60 C -35,-50 -55,-10 -40,25 C -25,45 -5,48 0,48 C -10,30 -25,-10 -3,-60 Z");
+                petalLeft.setAttribute("fill", `url(#${uid}_leftPetal)`);
+                flowerGroup.appendChild(petalLeft);
+
+                const petalRight = document.createElementNS(svgNS, "path");
+                petalRight.setAttribute("d", "M 3,-60 C 35,-50 55,-10 40,25 C 25,45 5,48 0,48 C 10,30 25,-10 3,-60 Z");
+                petalRight.setAttribute("fill", `url(#${uid}_rightPetal)`);
+                flowerGroup.appendChild(petalRight);
+
+                const petalCenter = document.createElementNS(svgNS, "path");
+                petalCenter.setAttribute("d", "M 0,-70 C 28,-55 35,-10 25,32 C 15,50 -15,50 -25,32 C -35,-10 -28,-55 0,-70 Z");
+                petalCenter.setAttribute("fill", `url(#${uid}_centerPetal)`);
+                flowerGroup.appendChild(petalCenter);
+
+                const gloss = document.createElementNS(svgNS, "path");
+                gloss.setAttribute("d", "M -8,-50 C 0,-60 8,-50 10,-35 C 5,-40 -5,-40 -8,-50 Z");
+                gloss.setAttribute("fill", "rgba(255,255,255,0.4)");
+                flowerGroup.appendChild(gloss);
+
+                svg.appendChild(flowerGroup);
+
+                this.bindInteractions(svg);
+                this.domElement = svg;
+                garden.appendChild(svg);
+            }
+
+            bindInteractions(svg) {
+                const onStart = (clientX, clientY) => {
+                    this.isDragging = true;
+                    this.lastMouseX = clientX;
+                    this.triggerHeartSparks(clientX, clientY);
+                };
+
+                const onMove = (clientX) => {
+                    if (this.isDragging) {
+                        const deltaX = clientX - this.lastMouseX;
+                        this.targetAngle += deltaX * 0.25;
+                        this.targetAngle = Math.max(-30, Math.min(30, this.targetAngle));
+                        this.lastMouseX = clientX;
+                    }
+                };
+
+                const onEnd = () => {
+                    this.isDragging = false;
+                };
+
+                svg.addEventListener('mousedown', (e) => {
+                    e.preventDefault();
+                    onStart(e.clientX, e.clientY);
+                });
+
+                window.addEventListener('mousemove', (e) => onMove(e.clientX));
+                window.addEventListener('mouseup', onEnd);
+
+                svg.addEventListener('touchstart', (e) => {
+                    const touch = e.touches[0];
+                    onStart(touch.clientX, touch.clientY);
+                }, { passive: true });
+
+                window.addEventListener('touchmove', (e) => {
+                    if (this.isDragging && e.touches.length > 0) {
+                        onMove(e.touches[0].clientX);
+                    }
+                }, { passive: true });
+
+                window.addEventListener('touchend', onEnd);
+
+                svg.addEventListener('mouseenter', (e) => {
+                    if (!this.isDragging) {
+                        const pushDirection = (e.clientX < window.innerWidth * (this.xPercent / 100)) ? 10 : -10;
+                        this.targetAngle += pushDirection;
+                        this.triggerHeartSparks(e.clientX, e.clientY, 2);
+                    }
+                });
+            }
+
+            triggerHeartSparks(x, y, count = 5) {
+                const hearts = ['💖', '💜', '🧡', '❤️', '✨', '🌷'];
+                for (let i = 0; i < count; i++) {
+                    const burst = document.createElement('div');
+                    burst.className = 'heart-burst';
+                    burst.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                    burst.style.left = `${x}px`;
+                    burst.style.top = `${y}px`;
+                    
+                    const angle = Math.random() * Math.PI * 2;
+                    const dist = Math.random() * 60 + 20;
+                    burst.style.setProperty('--vx', `${Math.cos(angle) * dist}px`);
+                    burst.style.setProperty('--vy', `${Math.sin(angle) * dist - 40}px`);
+
+                    document.body.appendChild(burst);
+                    setTimeout(() => burst.remove(), 1400);
+                }
+            }
+
+            update(time) {
+                const naturalWind = Math.sin(time * 0.0018 + this.swayOffset) * 4 +
+                                   Math.cos(time * 0.003 + this.swayOffset * 2) * 1.5;
+
+                if (!this.isDragging) {
+                    const diff = (this.targetAngle + naturalWind) - this.angle;
+                    this.angularVelocity += diff * 0.045;
+                    this.angularVelocity *= 0.88;
+                    this.angle += this.angularVelocity;
+                    this.targetAngle *= 0.94;
+                } else {
+                    this.angle += (this.targetAngle - this.angle) * 0.3;
+                }
+
+                this.domElement.style.transform = `rotate(${this.angle.toFixed(2)}deg) skewX(${(-this.angle * 0.22).toFixed(2)}deg)`;
+            }
+        }
+
+        const tulips = [];
+        function createGardenTulips() {
+            const isMobile = window.innerWidth < 600;
+            const hBase = isMobile ? 260 : 340;
+
+            const plan = isMobile ? [
+                { x: 8,  h: hBase - 30, theme: 'purple', s: 0.85, z: 3, offset: 0.2 },
+                { x: 26, h: hBase - 15, theme: 'orange', s: 0.88, z: 3, offset: 2.8 },
+                { x: 50, h: hBase - 25, theme: 'red',    s: 0.86, z: 3, offset: 1.1 },
+                { x: 74, h: hBase - 10, theme: 'purple', s: 0.89, z: 3, offset: 4.2 },
+                { x: 92, h: hBase - 30, theme: 'orange', s: 0.85, z: 3, offset: 0.5 },
+
+                { x: 14, h: hBase + 35, theme: 'red',    s: 1.05, z: 6, offset: 1.0 },
+                { x: 38, h: hBase + 45, theme: 'purple', s: 1.1,  z: 7, offset: 3.8 },
+                { x: 62, h: hBase + 40, theme: 'orange', s: 1.08, z: 7, offset: 2.9 },
+                { x: 86, h: hBase + 50, theme: 'red',    s: 1.12, z: 8, offset: 1.9 }
+            ] : [
+                { x: 5,  h: 310, theme: 'purple', s: 0.85, z: 3, offset: 0.2 },
+                { x: 14, h: 330, theme: 'red',    s: 0.9,  z: 3, offset: 1.5 },
+                { x: 23, h: 320, theme: 'orange', s: 0.88, z: 3, offset: 2.8 },
+                { x: 33, h: 340, theme: 'purple', s: 0.92, z: 3, offset: 0.9 },
+                { x: 44, h: 315, theme: 'orange', s: 0.86, z: 3, offset: 3.4 },
+                { x: 55, h: 335, theme: 'red',    s: 0.9,  z: 3, offset: 1.1 },
+                { x: 67, h: 325, theme: 'purple', s: 0.89, z: 3, offset: 4.2 },
+                { x: 77, h: 345, theme: 'orange', s: 0.93, z: 3, offset: 2.1 },
+                { x: 88, h: 310, theme: 'red',    s: 0.85, z: 3, offset: 0.5 },
+                { x: 96, h: 330, theme: 'purple', s: 0.9,  z: 3, offset: 3.1 },
+
+                { x: 2,  h: 370, theme: 'red',    s: 1.05, z: 6, offset: 1.0 },
+                { x: 10, h: 390, theme: 'orange', s: 1.1,  z: 7, offset: 2.4 },
+                { x: 19, h: 360, theme: 'purple', s: 1.0,  z: 6, offset: 0.6 },
+                { x: 28, h: 410, theme: 'red',    s: 1.15, z: 8, offset: 3.8 },
+                { x: 38, h: 375, theme: 'orange', s: 1.05, z: 6, offset: 1.7 },
+                { x: 48, h: 420, theme: 'purple', s: 1.2,  z: 8, offset: 4.5 },
+                { x: 58, h: 380, theme: 'red',    s: 1.08, z: 7, offset: 2.9 },
+                { x: 69, h: 405, theme: 'orange', s: 1.12, z: 7, offset: 0.3 },
+                { x: 80, h: 370, theme: 'purple', s: 1.02, z: 6, offset: 3.6 },
+                { x: 90, h: 415, theme: 'red',    s: 1.18, z: 8, offset: 1.9 },
+                { x: 98, h: 365, theme: 'orange', s: 1.0,  z: 6, offset: 4.1 }
+            ];
+
+            plan.forEach(item => {
+                tulips.push(new RealisticTulip(item.x, item.h, item.theme, item.s, item.offset, item.z));
+            });
+        }
+        createGardenTulips();
+
+        function updateGardenPhysics(time) {
+            tulips.forEach(tulip => tulip.update(time));
+            requestAnimationFrame(updateGardenPhysics);
+        }
+        requestAnimationFrame(updateGardenPhysics);
+
+
+        /* ==========================================================
+           4. EVENTOS Y EXPERIENCIA
+           ========================================================== */
+        const startBtn = document.getElementById('startBtn');
+        const introScreen = document.getElementById('introScreen');
+        const loveCard = document.getElementById('loveCard');
+        const hintBar = document.getElementById('hintBar');
+        const petalBtn = document.getElementById('petalBtn');
+
+        function triggerStart() {
+            introScreen.classList.add('hidden');
+            startMusicUniversal();
+
+            setTimeout(() => {
+                loveCard.classList.add('visible');
+            }, 400);
+
+            setTimeout(() => {
+                hintBar.classList.add('visible');
+            }, 1400);
+
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    addPetal(Math.random() * width, Math.random() * (height * 0.6));
+                }, i * 40);
+            }
+        }
+
+        startBtn.addEventListener('click', triggerStart);
+        startBtn.addEventListener('touchend', (e) => {
+            e.preventDefault();
+            triggerStart();
+        });
+
+        petalBtn.addEventListener('click', () => {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => addPetal(Math.random() * width, -10), i * 50);
+            }
+        });
+        petalBtn.addEventListener('touchstart', (e) => {
+            e.stopPropagation();
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => addPetal(Math.random() * width, -10), i * 50);
+            }
+        }, { passive: true });
+    </script>
+</body>
+</html>
